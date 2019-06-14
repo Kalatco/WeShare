@@ -4,6 +4,8 @@ This application allows users to play the same video
 among multiple platforms while synchronizing the videos
 from the server so they all play at the same exact time.
 
+![Gif of UI](https://github.com/Kalatco/YouTubeMultiPlay/blob/master/gif1.gif)
+
 ## Author
 
 Andrew Raftovich, Summer 2019.
@@ -21,6 +23,8 @@ other users.
 
 #### Queue
 The queue shows the thumbnails for all the queued videos.
+
+![Gif of queue](https://github.com/Kalatco/YouTubeMultiPlay/blob/master/gif2.gif)
 
 #### Remaining Time
 The remaining timer shows a sliding DIV element inside of a parent
