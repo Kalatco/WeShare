@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<link rel="stylesheet" href="css/styleGrid.css" type="text/css" media="all">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+		<script src="./../socket.io/socket.io.js"></script>
+	</head>
+	<body>
+		<div id="videoPlayer">
+			<div id="videoView">
+		    	<div id="player">Video</div>
+		    	<div id="queue">
+		    		<p>Empy queue...</p>
+		    	</div>
+		    	<div id="remainingTime">
+		    		<div id="timeSlider">&nbsp;</div>
+		    	</div>
+	    	</div>
+	    	<div id="videoControls">
+	    		<input type="submit" value="unmute" id="muteButton" class="defaultButton" class="space-right">
+	    		<input type="submit" value="vote skip" id="skip">
+	    		<div id="upload">
+		    		<form id="myForm">
+		    			<input type="text" name="Link" id="link" class="space-right">
+		    			<input type="submit" value="Upload" id="submitVideo">
+		    		</form>
+	    		</div>
+	    	</div>
+	    </div>
+	</body>
+	<script type="text/javascript" src="javascript/script.js"></script>
+</html>
