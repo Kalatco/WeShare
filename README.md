@@ -50,7 +50,7 @@ Node.jS, Express, Node-fetch, & Socket.io.
 To run this app, you must run the NodeMon package by 
 simply typing:
 ```bash
-nodemon index.html
+nodemon index.js
 ```
 This will run the index.js file and start the server.
 
