@@ -7,11 +7,11 @@
 */
 const fetch = require('node-fetch');
 
-const API_KEY = "{ADD YOUTUBE API KEY HERE}"
-const API_LINK = "https://www.googleapis.com/youtube/v3/videos"
-const SEARCH_TYPE = "?part=snippet%2CcontentDetails"
-const KEY = "&key="
-const VIDEO = "&id="
+const API_KEY = "{ADD YOUTUBE API KEY HERE}";
+const API_LINK = "https://www.googleapis.com/youtube/v3/videos";
+const SEARCH_TYPE = "?part=snippet%2CcontentDetails";
+const KEY = "&key=";
+const VIDEO = "&id=";
 
 class YoutubeVideoList {
 	constructor() {
