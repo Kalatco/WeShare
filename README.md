@@ -47,12 +47,13 @@ Node.jS, Express, Node-fetch, & Socket.io.
 
 ## Starting the server
 
-To run this app, you must run the NodeMon package by 
-simply typing:
+To run this app, you must go to the directory of the file in terminal
+and type the following command:
 ```bash
 nodemon index.js
 ```
-This will run the index.js file and start the server.
+This command will start the server and can be accessed from localhost:5000 
+in your web browser.
 
 ## API key
 
