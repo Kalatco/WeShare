@@ -1,4 +1,4 @@
-# Yotube MultiPlayer Application
+# WeShare
 
 This application Allows users to stream videos with their friends from different computers without the trouble of having each person sychronize 
 and search for the videos they want to play. This program does all the 
