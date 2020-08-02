@@ -4,7 +4,7 @@
 */
 
 //Variable declarations
-const socket = io();
+const socket = io(window.location.href);
 let videoID, videoStart, videoList, player;
 let playerDefined = false;
 let timesDelayed = 0;
