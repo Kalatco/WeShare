@@ -5,12 +5,11 @@
 
 //Variable declarations
 const socket = io();
-var videoID, videoStart, videoList;
-var player;
-var playerDefined = false;
-var timesDelayed = 0;
-var userVotedToSkip = false;
-var videoIsPlaying = false;
+let videoID, videoStart, videoList, player;
+let playerDefined = false;
+let timesDelayed = 0;
+let userVotedToSkip = false;
+let videoIsPlaying = false;
 
 
 /*-----------------SOCKET.IO CONNECTIONS--------------------*/
@@ -20,9 +19,9 @@ var videoIsPlaying = false;
 	       video playing along with other useful data, if there is one.
 */
 socket.on('currentVideo', (data) => {
-		videoID = data.video,
-		videoStart = data.currentTime,
-		videoList = data.queueList
+	videoID = data.video;
+	videoStart = data.currentTime;
+	videoList = data.queueList;
 });
 
 /*
@@ -55,9 +54,8 @@ $('document').ready(() => {
 	*/
 	$('#myForm').on('submit', (e) => {
 		e.preventDefault();
-		var myVideo = $link.val();
+		const myVideo = $link.val();
 		if(myVideo != '' && myVideo != linkBoxValue) {
-			console.log(myVideo)
 			socket.emit('addVideo', { video: myVideo });
 			$link.val(linkBoxValue);
 		}
@@ -76,7 +74,6 @@ $('document').ready(() => {
 		About: Mutes and unmutes the video while also updating the button values.
 	*/	
 	$mute.on('click', () => {
-					
 		if($mute.val() == 'mute') {
 			player.mute();
 			$mute.val('unmute');
@@ -119,14 +116,13 @@ $('document').ready(() => {
 	*/
 	socket.on('remainingTimePercent', (data) => {
 		setRemainingPercent(data.percentRemaining);
-		checkDelay(data.time)
+		checkDelay(data.time);
 	});
 
 	/*
 		About: Call from the server to update the Queue list.
 	*/
 	socket.on('updateQueue', (data) => {
-		console.log('updatting queue: ' + data.queueList)
 		updateQueueList(data.queueList);
 	});
 
@@ -148,9 +144,7 @@ $('document').ready(() => {
 		   along with the video duration and thumbnail for the video.
 */
 function updateQueueList(jsonData) {
-	var $queue = $('#queue');
-	var queueString = "";
-	var old_seconds = 0;
+	const $queue = $('#queue');
 
 	if(jsonData.length > 0) {
 		$queue.empty();
@@ -168,10 +162,10 @@ function updateQueueList(jsonData) {
 		   and seconds and outputs that data onto the #Queue DIV along with a user provided image.
 */
 function convertDataToQueue(time, image) {
-	var queueString = `<div class="photo"><img src="${image}"><div class="btm-rt">`;
+	let queueString = `<div class="photo"><img src="${image}"><div class="btm-rt">`;
 	const hours = Math.floor(time / 3600);
 	const minutes = Math.floor((time - (hours * 3600)) / 60);
-    const seconds = time - (hours * 3600) - (minutes * 60);
+  const seconds = time - (hours * 3600) - (minutes * 60);
 
 	if (hours >= 1) {
 		queueString += `${hours}H ${minutes}M`;
@@ -192,11 +186,10 @@ function checkDelay(serverTime) {
 
 	if(typeof player !== null && playerDefined && (timesDelayed < 9)) {
 		timesDelayed++;
-		var playerTime = player.getCurrentTime();
+		const playerTime = player.getCurrentTime();
 
 		if(serverTime-0.2 > playerTime || serverTime+0.2 < playerTime) {
-			console.log('fixing video delay, video lag may occur')
-				player.seekTo(serverTime)
+			player.seekTo(serverTime)
 		}
 	}
 }
@@ -212,9 +205,9 @@ function setRemainingPercent(percentage) {
 /*-------------------YOUTUBE IFRAME PLAYER CODE-------------------*/
  
 // 2. This code loads the IFrame Player API code asynchronously.
-var tag = document.createElement('script');
+const tag = document.createElement('script');
 tag.src = "https://www.youtube.com/iframe_api";
-var firstScriptTag = document.getElementsByTagName('script')[0];
+const firstScriptTag = document.getElementsByTagName('script')[0];
 firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
 // 3. This function creates an <iframe> (and YouTube player)
@@ -226,7 +219,7 @@ function onYouTubeIframeAPIReady() {
 		playerVars: {
        		controls: '0',
        		mute: '1',
-       		playsinline: '1' /* Added for mobile use. does it work? */
+       		playsinline: '1'
       	},
 		events: {
 			'onReady': onPlayerReady,

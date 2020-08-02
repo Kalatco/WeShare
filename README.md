@@ -10,6 +10,8 @@ work for you by having one person type the video link into the program.
 
 Andrew Raftovich, Summer 2019.
 
+[App is running here on heroku](https://youtube-we-share.herokuapp.com/)
+
 ## Usage
 
 #### Video
@@ -43,11 +45,12 @@ Node.jS, Express, Node-fetch, & Socket.io.
 
 ## Starting the server
 
-To run this app, you must make sure all the files are installed and go to the directory of the file in the terminal and type the following command:
+Setup instructions:
 ```bash
-nodemon index.js
+npm install
+node index.js
 ```
-This command will start the server and you can access the site from the website 'localhost:5000' in your web browser.
+This command will start the server and you can access the site at 'localhost:5000' in your web browser.
 
 ## API key
 
@@ -57,8 +60,12 @@ application.
 You can get your own key by following the instructions in this link:
 [YouTube API](https://developers.google.com/youtube/v3/getting-started)
 
-Once you have recieved the API key you must insert it inside the 'VideoList.js' file located inside the 'VideoActions' folder.
-```python
-const API_KEY = "{INSERT KEY HERE}";
+Once you have received the API key you must insert it into the config/default.json file.
+```
+{
+  "Youtube": {
+    "api_key": "KEY_GOES_HERE",
+  }
+}
 ````
 
