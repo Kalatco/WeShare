@@ -1,0 +1,7 @@
+{
+  "Youtube": {
+    "api_key": "YOUTUBE_API_KEY_GOES_HERE",
+    "api_url": "https://www.googleapis.com/youtube/v3/videos",
+    "api_search_type": "?part=snippet%2CcontentDetails"
+  }
+}

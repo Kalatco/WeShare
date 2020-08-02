@@ -20,35 +20,25 @@ const io = require('socket.io')(server);
 const RunVideo = require('./videoActions/RunVideo.js')
 const myVideoRunner = new RunVideo(io);
 
-const sleep = (s) => new Promise((resolve, reject)=> setTimeout(resolve, s * 1000));
-
 app.use(express.static(__dirname + '/site'));
 
 io.on('connection', (socket) => {
 	myVideoRunner.addUser();
 
 	socket.emit('currentVideo', {
-		video: myVideoRunner.getVideoId(), 
-		currentTime: myVideoRunner.getCurrentTime(),
-		endTime: myVideoRunner.getEndTime(),
-		queueList: myVideoRunner.getList()
-	})
+			video: myVideoRunner.getVideoId(), 
+			currentTime: myVideoRunner.getCurrentTime(),
+			endTime: myVideoRunner.getEndTime(),
+			queueList: myVideoRunner.getList(),
+		});
    
-    socket.on('addVideo', (data) => {
-   		myVideoRunner.addVideo(data.video)
-    })
+  socket.on('addVideo', (data) => { myVideoRunner.addVideo(data.video); });
 
-    socket.on('disconnect', () => {
-		myVideoRunner.removeUser();
-	});
+  socket.on('disconnect', () => { myVideoRunner.removeUser(); });
 
-	socket.on('userWantsSkip', () => {
-		myVideoRunner.skipVideo();
-	})
+	socket.on('userWantsSkip', () => { myVideoRunner.skipVideo(); });
 
-	socket.on('userCancelsSkip', () => {
-		myVideoRunner.cancelVote();
-	})
+	socket.on('userCancelsSkip', () => { myVideoRunner.cancelVote(); });
 });	
 
 server.listen(PORT, () => console.log(`server started on port ${PORT}`));

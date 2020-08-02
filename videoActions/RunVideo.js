@@ -31,8 +31,7 @@ class RunVideo {
 		play this video.
 	*/
 	async addVideo(id) {
-		console.log("new video added!")
-		this.myList.addVideo(id)
+		this.myList.addVideo(id);
 
 		if(this.isRunning == false) {
 			await sleep(1);
@@ -40,11 +39,7 @@ class RunVideo {
 			this.runProgram();
 		}
 		await sleep(2)
-		this.mySock.emit('updateQueue', 
-		{
-			queueList: this.getList()
-		})
-
+		this.mySock.emit('updateQueue', { queueList: this.getList() });
 	}
 
 	/*
@@ -54,29 +49,25 @@ class RunVideo {
 	*/
 	async runProgram() {
 		
-
 		while(this.isRunning) {
-			var nextQueueItem = this.myList.getNext();
-			console.log(nextQueueItem)
+			const nextQueueItem = this.myList.getNext();
 			if(nextQueueItem !== null) {
 				this.curId = nextQueueItem.id
 				this.videoLength = nextQueueItem.length;
 				this.curTime = 0;
 
-				this.mySock.emit('nextVideo',
-				{
-					video: this.getVideoId(),
-					queueList: this.getList()
-				});
+				this.mySock.emit('nextVideo', {
+						video: this.getVideoId(),
+						queueList: this.getList(),
+					});
 				
 				while (this.curTime < this.videoLength && !this.skipVideoBool) {
 
 					await sleep(1)
 					this.curTime++;
-					this.mySock.emit('remainingTimePercent', 
-						{
+					this.mySock.emit('remainingTimePercent', {
 							percentRemaining: (this.curTime/this.videoLength*100),
-							time: this.curTime
+							time: this.curTime,
 						});
 				}
 				this.skipVideoBool = false;
@@ -84,7 +75,6 @@ class RunVideo {
 			this.curId = '';
 			if(!(this.myList.getList().length > 0)) {
 					this.isRunning = false;
-					console.log("Video Queue ended.");
 			}
 		}
 	}
@@ -99,7 +89,6 @@ class RunVideo {
 		if(this.skipVideoVote >= this.currentUsers/2) {
 			await sleep(1);
 			this.skipVideoBool = true;
-			console.log(`${this.skipVideoVote} user(s) chose to skip the video`);
 			this.skipVideoVote = 0;
 			
 			this.sendVoteUpdate();
@@ -107,7 +96,7 @@ class RunVideo {
 				this.runProgram();
 			} else if (this.curId !== ''){
 				await sleep(1);
-				this.mySock.emit('noMoreVideos', {time: this.videoLength-1});
+				this.mySock.emit('noMoreVideos', { time: this.videoLength-1 });
 			}
 		}
 	}
@@ -117,11 +106,10 @@ class RunVideo {
 	*/
 	//Makes a call to the client to update the voting status.
 	sendVoteUpdate() {
-		this.mySock.emit('userSkipButtonUpdate',
-		{
-			skips: this.skipVideoVote,
-			total: this.currentUsers
-		})
+		this.mySock.emit('userSkipButtonUpdate', {
+				skips: this.skipVideoVote,
+				total: this.currentUsers
+			});
 	}
 
 	//Updates voting information.

@@ -5,16 +5,15 @@
 	About: Holds information about videos being played and their lengths. Automatically Finds
 		   the length of the video given the video ID. 
 */
+const config = require('config');
 const fetch = require('node-fetch');
-const API_KEY = "{ADD YOUTUBE API KEY HERE}";
-const API_LINK = "https://www.googleapis.com/youtube/v3/videos";
-const SEARCH_TYPE = "?part=snippet%2CcontentDetails";
-const KEY = "&key=";
-const VIDEO = "&id=";
+const API_KEY = config.get('Youtube.api_key');
+const API_LINK = config.get('Youtube.api_url');
+const SEARCH_TYPE = config.get('Youtube.api_search_type');
 
 class YoutubeVideoList {
 	constructor() {
-		this.videoList = []
+		this.videoList = [];
 	}
 	
 	/*
@@ -24,29 +23,26 @@ class YoutubeVideoList {
 	*/
 	addVideo(videoLink) {
 		const videoID = getYoutTubeID(videoLink)
-		fetch(`${API_LINK}${SEARCH_TYPE}${VIDEO}${videoID}${KEY}${API_KEY}`, { method: 'get'})
+		fetch(`${API_LINK}${SEARCH_TYPE}&id=${videoID}&key=${API_KEY}`)
 			.then((res) => {
-				console.log('youtube api call made');
 				return res.json();
 			})
 			.then((res) => {
-				var defaultArt = res.items[0].snippet.thumbnails.default.url;
-				var standardArt = null;
+				const defaultArt = res.items[0].snippet.thumbnails.default.url;
+				let standardArt = null;
 				try {
 					standardArt = res.items[0].snippet.thumbnails.standard.url;
 				} catch(error) {
 					console.log("Unknown Image");
 				}
-				this.videoList.push(
-				{
-					id: videoID,
-					length: convertToSeconds(res.items[0].contentDetails.duration),
-					videoArt: Object.is(standardArt, null) ? defaultArt : standardArt
-				})
-
+				this.videoList.push({
+						id: videoID,
+						length: convertToSeconds(res.items[0].contentDetails.duration),
+						videoArt: Object.is(standardArt, null) ? defaultArt : standardArt,
+					});
 			})
 			.catch((err) => {
-				console.log(err)
+				console.log(err);
 			})
 	}
 
@@ -57,7 +53,7 @@ class YoutubeVideoList {
 		if(this.videoList.length > 0) {
 			return this.videoList.shift();
 		} else {
-			return null
+			return null;
 		}	
 	}
 
@@ -70,7 +66,6 @@ class YoutubeVideoList {
 }
 
 module.exports = YoutubeVideoList;
-
 
 /*
 	About: Takes a youtube link and pulls out the video ID from the link.
@@ -85,7 +80,7 @@ function getYoutTubeID(url){
 	About: Converts the Youtube standard "PT00H00M00S" length format to seconds as an Integer.
 */
 function convertToSeconds(duration) {
-	var a = duration.match(/\d+/g);
+	let a = duration.match(/\d+/g);
 
     if (duration.indexOf('M') >= 0 && duration.indexOf('H') == -1 && duration.indexOf('S') == -1) {
         a = [0, a[0], 0];
@@ -114,5 +109,5 @@ function convertToSeconds(duration) {
     if (a.length == 1) {
         duration = duration + parseInt(a[0]);
     }
-    return duration
+    return duration;
 }
